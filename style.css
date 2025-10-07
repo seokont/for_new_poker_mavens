@@ -601,8 +601,7 @@ button:hover {
     background-repeat: no-repeat !important;
     background-size: cover !important;
     opacity: 1 !important;
-    /* height: 50px !important;
-	width: 50px !important; */
+  
     margin: -4px 0 0 40px;
 }
 

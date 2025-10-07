@@ -1,3 +1,8 @@
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   // ====== КОНФИГ (оставил твои данные) ======
  const ENTRIES = [
@@ -514,7 +519,7 @@ document.addEventListener("DOMContentLoaded", () => {
       selectorsAll: [".dealer"],
       parentSelector: "div:nth-child(3)",
       scenarios: {
-      
+       
         "2": {
           targets:  [
             { left: 533, top: 212 },   // примерная «стартовая» позиция дилера
@@ -525,8 +530,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { left: 27,  top: 47 }     // проценты для совпадения с targets[1]
           ]
         },
-
-        "3": {
+   "3": {
           targets:  [
             { left: 516, top: 137 },   
             { left: 260, top: 314 },   
@@ -540,7 +544,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
           ]
         },
-        "4": {
+       "4": {
           targets:  [
             { left: 516, top: 137 },   
             { left: 516, top: 276 },   
@@ -556,8 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
           ]
         },
-
-        "5": {
+       "5": {
           targets:  [
             { left: 516, top: 137 },   
             { left: 516, top: 276 },   
@@ -575,8 +578,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
           ]
         },
-
-         "6": {
+       "6": {
           targets:  [
             { left: 375, top: 74 },   
             { left: 533, top: 212 },   
@@ -596,11 +598,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 
           ]
         },
-        
       }
     }
   ];
-   const TOL = 2;                 // допуск сравнения (px)
+  const TOL = 2;                 // допуск сравнения (px)
   const MIN_REAPPLY_MS = 80;     // антидребезг
   const START_RETRIES = 60;      // стартовые попытки
   const RETRY_DELAY = 100;       // мс между попытками
@@ -609,7 +610,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const DIRECT_ONLY = true;      // .sp_graphic как ПРЯМОЙ ребёнок (true) или любой потомок (false)
 
   // ====== УТИЛИТЫ ======
-
+  const log = (...a) => console.log("[watch]", ...a);
   const px = v => (typeof v === "string" && v.endsWith("px")) ? parseFloat(v) : NaN;
   const closeTo = (a,b,tol=TOL) => Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<=tol;
 
@@ -843,6 +844,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ENTRIES.forEach(bootstrapEntry);
 });
 
+//-------------------------------------------------------------------------------------------------------------------
+
 
 function parseMatrix(transformString) {
   if (!transformString || !transformString.startsWith("matrix")) return null;
@@ -1062,9 +1065,6 @@ const interval_4 = setInterval(() => {
   }
 }, 100);
 
-
-
-
 const interval_7 = setInterval(() => {
   const div = document.getElementById('RingObserveBtn');
   if (div) {
@@ -1099,20 +1099,13 @@ const interval_8 = setInterval(() => {
   }
 }, 100);
 
-
 const interval_9 = setInterval(() => {
-
   const hide = (el) => el?.style.setProperty('display','block','important');
   const mo = new MutationObserver(() => hide(document.getElementById('mControlsUnhideBtn')));
   mo.observe(document.documentElement, { childList: true, subtree: true });
   hide(document.getElementById('mControlsUnhideBtn'));
-
  clearInterval(interval_9);
- 
-
 }, 100);
-
-
 
 const interval_10 = setInterval(() => { 
 const hide_2 = (el) => el?.style.setProperty('display','none','important');
@@ -1345,3 +1338,8 @@ if (document.readyState === 'loading') {
 } else {
   window.seatObserver = new SeatTextObserver();
 }
+
+
+
+
+

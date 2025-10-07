@@ -624,6 +624,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 
           ]
         },
+       "8": {
+          targets:  [
+            { left: 375, top: 74 },   
+            { left: 516, top: 137 },   
+            { left: 516, top: 276 },
+
+            { left: 375, top: 323 }, 
+            { left: 303, top: 323 }, 
+
+            { left: 162, top: 276 },   
+            { left: 162, top: 137 },   
+            { left: 303, top: 74 },   
+               
+          ],
+          percents: [
+            { left: 66,  top: 6},
+            { left: 66,  top: 23},  
+            { left: 66,  top: 45},   
+            { left: 66,  top: 60},
+
+                        
+            
+            { left: 30,  top: 60}, 
+            { left: 30,  top: 45},  
+            { left: 30,  top: 23}, 
+            { left: 30,  top: 6},
+          ]
+        },
       }
     }
   ];

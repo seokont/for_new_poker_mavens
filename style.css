@@ -30,7 +30,7 @@
     }
 
     .sp_graphic {
-        background-repeat: no-repeat !important;
+        /* background-repeat: no-repeat !important; */
         background-size: cover !important;
         opacity: 1 !important;
         height: 57px !important;
@@ -91,9 +91,6 @@
         height: 100px !important;
         width: 100px !important;
     }
-
-
-
 
     .bannermiddle {
         top: 88% !important;
@@ -317,16 +314,17 @@
     left: 23px !important;
     width: 120px !important;
     height: 120px !important;
-
+    /* background: none !important; */
     border-radius: 50% !important;
-
+    /* background-color: #000 !important; */
     background-size: auto 115px !important;
     border: 1px solid #fff !important;
 
 }
 
 .sp_graphic {
-
+    /* background-repeat: no-repeat !important;
+	 background-size: cover !important; */
     opacity: 1 !important;
     height: 57px !important;
     width: 131px !important;
@@ -384,10 +382,6 @@
     top: 91% !important;
     font-size: 27px !important;
 }
-
-
-
-
 
 
 
@@ -607,8 +601,8 @@ button:hover {
     background-repeat: no-repeat !important;
     background-size: cover !important;
     opacity: 1 !important;
-    height: 50px !important;
-    width: 50px !important;
+    /* height: 50px !important;
+	width: 50px !important; */
     margin: -4px 0 0 40px;
 }
 
@@ -658,7 +652,6 @@ button:hover {
         position: bottom center !important;
     }
 }
-
 
 
 #OpenTableControls {

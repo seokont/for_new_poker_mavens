@@ -589,12 +589,12 @@ document.addEventListener("DOMContentLoaded", () => {
                
           ],
           percents: [
-            { left: 66,  top: 15},  
+            { left: 66,  top: 23},  
             { left: 66,  top: 25},   
             { left: 66,  top: 47},            
             { left: 30,  top: 47}, 
             { left: 30,  top: 25},  
-            { left: 30,  top: 15}, 
+            { left: 30,  top: 23}, 
                 
           ]
         },

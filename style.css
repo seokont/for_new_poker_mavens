@@ -231,6 +231,11 @@
         font-size: 27px !important;
 
     }
+    .sp_name,
+    .sp_info {
+  top: 2px !important;
+  left: 0px !important;
+}
 
 }
 
@@ -620,10 +625,6 @@ button:hover {
 
 
 
-.sp_name,
-.sp_info {
-    /* font-size: 0.8em !important; */
-}
 
 #Lobby {
     background: #303030 !important;

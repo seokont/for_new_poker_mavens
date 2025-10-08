@@ -219,6 +219,19 @@
         left: 36.7% !important;
     }
 
+    div.chipstack:nth-child(65) {
+        left: 50% !important;
+        top: 54% !important;
+        transform: scale(1.8) !important;
+    }
+
+    div:nth-child(3)>div:nth-child(66) {
+        left: 49.5% !important;
+        top: 55.5% !important;
+        font-size: 27px !important;
+
+    }
+
 }
 
 .commandbtn2>button {
@@ -601,7 +614,7 @@ button:hover {
     background-repeat: no-repeat !important;
     background-size: cover !important;
     opacity: 1 !important;
-  
+
     margin: -4px 0 0 40px;
 }
 
@@ -657,4 +670,3 @@ button:hover {
     position: absolute !important;
     z-index: 3 !important;
 }
-

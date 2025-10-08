@@ -1,6 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
   // === обрабатываем все контейнеры с id вида R#... ===
-  const ROOTS_SELECTOR = '[id^="R#"]';
+  const DEBUG = true;
+  const PURE_HIDE_ONLY = true;   // временно поставь false, если хочешь проверить, не отсекает ли фильтр
+  const DIRECT_ONLY = true;      // .sp_graphic как ПРЯМОЙ ребёнок (иначе берём любой потомок)
+  const ROOTS_SELECTOR = '[id^="R#"]'; // контейнеры вида R#000000006 и т.п.
+
+  // ================= ТОЧНОСТЬ И ТАЙМИНГИ =================
+  const TOL = 2;
+  const MIN_REAPPLY_MS = 80;
+  const POLL_EVERY_MS = 120;
 
   // ====== КОНФИГ (твой, без изменений по значениям) ======
   const ENTRIES = [
@@ -137,14 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  // ====== НАСТРОЙКИ ======
-  const TOL = 2, MIN_REAPPLY_MS = 80, POLL_EVERY_MS = 80;
-  const PURE_HIDE_ONLY = true;    // только class="hide" без id и без других классов
-  const DIRECT_ONLY = true;       // .sp_graphic — прямой ребёнок
-
-  // ====== УТИЛИТЫ ======
-  const log = (...a) => console.log("[multi-root]", ...a);
-  const px = v => (typeof v === "string" && v.endsWith("px")) ? parseFloat(v) : NaN;
+  // ================= УТИЛИТЫ =================
+  const log  = (...a) => DEBUG && console.log("[multi-root]", ...a);
+  const warn = (...a) => console.warn("[multi-root]", ...a);
+  const px   = v => (typeof v === "string" && v.endsWith("px")) ? parseFloat(v) : NaN;
   const closeTo = (a,b,t=TOL) => Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<=t;
 
   const isPureHide = el =>
@@ -170,19 +174,26 @@ document.addEventListener("DOMContentLoaded", () => {
   function readPosComputed(el) {
     const cs = getComputedStyle(el);
     const l = px(cs.left), t = px(cs.top);
-    if (Number.isFinite(l) && Number.isFinite(t)) return { left: Math.round(l), top: Math.round(t) };
-    return { left: NaN, top: NaN };
+    if (Number.isFinite(l) && Number.isFinite(t)) return { left: Math.round(l), top: Math.round(t), method:"computed" };
+    return { left: NaN, top: NaN, method:"computed-auto" };
   }
+
   function readPosRect(el) {
     const rect = el.getBoundingClientRect();
-    const parent = el.offsetParent || el.parentElement || document.documentElement;
-    const pr = parent.getBoundingClientRect ? parent.getBoundingClientRect() : { left:0, top:0 };
-    return { left: Math.round(rect.left - pr.left), top: Math.round(rect.top - pr.top) };
+    // Ближайший позиционированный предок (offsetParent). Если нет — берём parentElement или документ.
+    let parent = el.offsetParent || el.parentElement || document.documentElement;
+    let pr = { left:0, top:0 };
+    if (parent && parent.getBoundingClientRect) {
+      pr = parent.getBoundingClientRect();
+    }
+    return { left: Math.round(rect.left - pr.left), top: Math.round(rect.top - pr.top), method:"rect-relative" };
   }
-  const readPos = el => {
+
+  function readPos(el) {
     const a = readPosComputed(el);
-    return (Number.isFinite(a.left) && Number.isFinite(a.top)) ? a : readPosRect(el);
-  };
+    if (Number.isFinite(a.left) && Number.isFinite(a.top)) return a;
+    return readPosRect(el);
+  }
 
   function ensureAbsoluteAtCurrent(el) {
     const cs = getComputedStyle(el);
@@ -193,159 +204,201 @@ document.addEventListener("DOMContentLoaded", () => {
         el.style.left = base.left + "px";
         el.style.top  = base.top  + "px";
       }
+      log("ensureAbsoluteAtCurrent", base, el);
     }
   }
 
-  // ====== ЛОГИКА ДЛЯ ОДНОГО КОРНЯ ======
-  function runForRoot(root) {
-    if (!root?.isConnected) return;
+  function matchTargetIndex(pos, targets) {
+    for (let i=0;i<targets.length;i++){
+      const t = targets[i];
+      if (closeTo(pos.left,t.left) && closeTo(pos.top,t.top)) return i;
+    }
+    return -1;
+  }
 
-    // локальные помощники (в пределах root / его parentSelector)
-    function countTargetHides(scopeEl) {
-      const scope = scopeEl || root;
-      let n = 0;
-      scope.querySelectorAll(".hide").forEach(el => {
-        if (isTargetHide(el) && getComputedStyle(el).display !== "none") n++;
+  function setPercent(el, perc) {
+    if (perc.left != null) el.style.left = perc.left + "%";
+    if (perc.top  != null) el.style.top  = perc.top  + "%";
+  }
+
+  function countTargetHides(scope) {
+    const arr = [];
+    scope.querySelectorAll(".hide").forEach(el => {
+      if (isTargetHide(el) && getComputedStyle(el).display !== "none") arr.push(el);
+    });
+    if (DEBUG) {
+      log("countTargetHides in scope:", scope, "=>", arr.length);
+      // Показать до 10 элементов для наглядности
+      arr.slice(0,10).forEach((el,i)=>{
+        const pos = readPos(el);
+        log("  hide#", i, "pure=", isPureHide(el), "hasGraphic=", hasSpGraphic(el), "pos=", pos, el);
       });
-      return n;
+    }
+    return arr.length;
+  }
+
+  function pickScenarioForRootEntry(root, entry) {
+    const parent = entry.parentSelector ? root.querySelector(entry.parentSelector) : root;
+    if (!parent) { warn("parentSelector not found in root", root, entry.name, entry.parentSelector); return null; }
+    const cnt = countTargetHides(parent);
+    const map = entry.scenarios || {};
+    const chosen = map[String(cnt)] || map["default"];
+    log("scenario pick:", { root: root.id || root, entry: entry.name, hideCount: cnt, scenarioKey: map[String(cnt)] ? String(cnt) : (chosen ? "default" : "none") });
+    return chosen || null;
+  }
+
+  function applyPercentForIndex(el, entry, idx, percents, root) {
+    if (idx < 0 || idx >= percents.length) return false;
+    const last = Number(el.dataset._pctAt || 0);
+    if (Date.now() - last < MIN_REAPPLY_MS) return false;
+
+    ensureAbsoluteAtCurrent(el);
+    el.dataset._pctLock = "1";
+    setPercent(el, percents[idx]);
+    el.dataset._pctAt = String(Date.now());
+    log("APPLY%", { root: root.id || root, entry: entry.name, idx, perc: percents[idx] });
+    setTimeout(() => { delete el.dataset._pctLock; }, MIN_REAPPLY_MS);
+    return true;
+  }
+
+  function processElementInRoot(el, entry, root) {
+    if (!el || el.dataset._pctLock) return;
+
+    // Фильтр для .hide (только целевые)
+    if (el.classList?.contains("hide") && !isTargetHide(el)) {
+      log("skip non-target .hide", el);
+      return;
     }
 
-    function pickScenario(entry) {
-      // считаем hide внутри parentSelector, но ОТНОСИТЕЛЬНО root
-      const parent = entry.parentSelector ? root.querySelector(entry.parentSelector) : root;
-      const cnt = countTargetHides(parent);
-      const map = entry.scenarios || {};
-      const chosen = map[String(cnt)] || map["default"];
-      // лог
-      console.log("[multi-root] root:", root.id || root,
-                  "| entry:", entry.name, "| hide+graphic:", cnt,
-                  "| scenario:", map[String(cnt)] ? String(cnt) : (chosen ? "default" : "none"));
-      return chosen || null;
+    const cs = getComputedStyle(el);
+    if (cs.display === "none") { log("skip display:none", el); return; }
+
+    const scenario = pickScenarioForRootEntry(root, entry);
+    if (!scenario || !scenario.targets || !scenario.percents || scenario.targets.length !== scenario.percents.length) {
+      log("no scenario/invalid scenario for", entry.name, "in", root);
+      return;
     }
 
-    function matchTargetIndex(pos, targets) {
-      for (let i=0;i<targets.length;i++){
-        const t = targets[i];
-        if (closeTo(pos.left,t.left) && closeTo(pos.top,t.top)) return i;
-      }
-      return -1;
-    }
+    const pos = readPos(el);
+    const idx = matchTargetIndex(pos, scenario.targets);
+    log("process", { root: root.id || root, entry: entry.name, pos, idx, targetsLen: scenario.targets.length });
+    if (idx >= 0) applyPercentForIndex(el, entry, idx, scenario.percents, root);
+  }
 
-    function setPercent(el, perc) {
-      if (perc.left != null) el.style.left = perc.left + "%";
-      if (perc.top  != null) el.style.top  = perc.top  + "%";
-    }
+  function attachWatch(el, entry, root) {
+    if (!el || el._pctAttached) return;
+    el._pctAttached = true;
 
-    function applyPercentForIndex(el, entry, idx, percents) {
-      if (idx < 0 || idx >= percents.length) return false;
-      const last = Number(el.dataset._pctAt || 0);
-      if (Date.now() - last < MIN_REAPPLY_MS) return false;
+    const mo = new MutationObserver(() => processElementInRoot(el, entry, root));
+    mo.observe(el, { attributes: true, attributeFilter: ["style", "class"] });
 
-      ensureAbsoluteAtCurrent(el);
-      el.dataset._pctLock = "1";
-      setPercent(el, percents[idx]);
-      el.dataset._pctAt = String(Date.now());
-      setTimeout(() => { delete el.dataset._pctLock; }, MIN_REAPPLY_MS);
-      console.log("[multi-root] SET%", entry.name, "idx", idx, "=>", percents[idx], "in", root.id || root);
-      return true;
-    }
-
-    function processElement(el, entry) {
-      if (!el || el.dataset._pctLock) return;
-      // если это .hide — обязателен фильтр (чистый + sp_graphic)
-      if (el.classList?.contains("hide") && !isTargetHide(el)) return;
-      if (getComputedStyle(el).display === "none") return;
-
-      const sc = pickScenario(entry);
-      if (!sc || !sc.targets || !sc.percents || sc.targets.length !== sc.percents.length) return;
-
-      const pos = readPos(el);
-      const idx = matchTargetIndex(pos, sc.targets);
-      if (idx >= 0) applyPercentForIndex(el, entry, idx, sc.percents);
-    }
-
-    function attachWatch(el, entry) {
-      if (!el || el._pctAttached) return;
-      el._pctAttached = true;
-
-      const mo = new MutationObserver(() => processElement(el, entry));
-      mo.observe(el, { attributes: true, attributeFilter: ["style", "class"] });
-
-      let lastTick = 0;
-      function tick(ts) {
-        if (!el.isConnected) return;
-        if (ts - lastTick >= POLL_EVERY_MS) { lastTick = ts; processElement(el, entry); }
-        requestAnimationFrame(tick);
+    let lastTick = 0;
+    function tick(ts) {
+      if (!el.isConnected) return;
+      if (ts - lastTick >= POLL_EVERY_MS) {
+        lastTick = ts;
+        processElementInRoot(el, entry, root);
       }
       requestAnimationFrame(tick);
     }
+    requestAnimationFrame(tick);
+  }
 
-    function getCandidates(entry) {
-      const set = new Set();
-      // множественные
-      entry.selectorsAll?.forEach(sel => root.querySelectorAll(sel).forEach(el => set.add(el)));
-      // одиночные (берём первый найденный в root)
-      entry.selectors?.forEach(sel => { const el = root.querySelector(sel); if (el) set.add(el); });
-      // parent + index (относительно root)
-      if (entry.parentSelector && Number.isInteger(entry.childIndex)) {
-        const parent = root.querySelector(entry.parentSelector);
-        if (parent) {
-          const kids = Array.from(parent.children);
-          const el = kids[entry.childIndex];
-          if (el) set.add(el);
-        }
+  function getCandidatesInRoot(entry, root) {
+    const set = new Set();
+    // множественные
+    entry.selectorsAll?.forEach(sel => root.querySelectorAll(sel).forEach(el => set.add(el)));
+    // одиночные — берём первый
+    entry.selectors?.forEach(sel => { const el = root.querySelector(sel); if (el) set.add(el); });
+    // parent + index
+    if (entry.parentSelector && Number.isInteger(entry.childIndex)) {
+      const parent = root.querySelector(entry.parentSelector);
+      if (parent) {
+        const kids = Array.from(parent.children);
+        const el = kids[entry.childIndex];
+        if (el) set.add(el);
+      } else {
+        warn("parentSelector not found (candidates)", entry.name, entry.parentSelector, "in root", root);
       }
-      return Array.from(set);
     }
+    const arr = Array.from(set);
+    log("candidates", entry.name, "in", root.id || root, "=>", arr.length, arr);
+    return arr;
+  }
 
-    // init по корню
+  function runForRoot(root) {
+    log("INIT ROOT:", root.id || root);
+
+    // первичная диагностика по корню
+    const allHides = root.querySelectorAll(".hide");
+    log("root hides total:", allHides.length, "(not all may be target)");
+    const targetCount = countTargetHides(root);
+    log("root target hides (pure+sp_graphic):", targetCount);
+
     ENTRIES.forEach(entry => {
-      const els = getCandidates(entry);
-      els.forEach(el => { processElement(el, entry); attachWatch(el, entry); });
+      const candidates = getCandidatesInRoot(entry, root);
+      if (!candidates.length) {
+        warn("no candidates for", entry.name, "in root", root);
+      }
+      candidates.forEach(el => {
+        const pos = readPos(el);
+        log("candidate", entry.name, "pos=", pos, el);
+        processElementInRoot(el, entry, root);
+        attachWatch(el, entry, root);
+      });
     });
 
-    // отслеживаем добавления внутри корня
+    // следим за добавлениями внутри root
     const ro = new MutationObserver(muts => {
       for (const m of muts) {
         for (const n of m.addedNodes) {
           if (n.nodeType !== 1) continue;
           ENTRIES.forEach(entry => {
+            // множественные
             entry.selectorsAll?.forEach(sel => {
-              if (n.matches?.(sel)) { processElement(n, entry); attachWatch(n, entry); }
-              n.querySelectorAll?.(sel).forEach(el => { processElement(el, entry); attachWatch(el, entry); });
+              if (n.matches?.(sel)) { processElementInRoot(n, entry, root); attachWatch(n, entry, root); }
+              n.querySelectorAll?.(sel).forEach(el => { processElementInRoot(el, entry, root); attachWatch(el, entry, root); });
             });
+            // одиночные
             entry.selectors?.forEach(sel => {
-              if (n.matches?.(sel)) { processElement(n, entry); attachWatch(n, entry); }
-              const q = n.querySelector?.(sel); if (q) { processElement(q, entry); attachWatch(q, entry); }
+              if (n.matches?.(sel)) { processElementInRoot(n, entry, root); attachWatch(n, entry, root); }
+              const q = n.querySelector?.(sel); if (q) { processElementInRoot(q, entry, root); attachWatch(q, entry, root); }
             });
+            // parent + index
             if (entry.parentSelector && n.matches?.(entry.parentSelector)) {
               const kids = Array.from(n.children);
               const el = kids[entry.childIndex];
-              if (el) { processElement(el, entry); attachWatch(el, entry); }
+              if (el) { processElementInRoot(el, entry, root); attachWatch(el, entry, root); }
             }
           });
         }
       }
     });
-    ro.observe(root, { childList:true, subtree:true });
+    ro.observe(root, { childList: true, subtree: true });
   }
 
-  // запустить для всех текущих корней
-  document.querySelectorAll(ROOTS_SELECTOR).forEach(runForRoot);
-
-  // если новые корни появляются динамически
-  const bodyObs = new MutationObserver(muts => {
-    for (const m of muts) {
-      for (const n of m.addedNodes) {
-        if (n.nodeType !== 1) continue;
-        if (n.matches?.(ROOTS_SELECTOR)) runForRoot(n);
-        n.querySelectorAll?.(ROOTS_SELECTOR).forEach(runForRoot);
+  // ================= ЗАПУСК =================
+  const roots = Array.from(document.querySelectorAll(ROOTS_SELECTOR));
+  if (!roots.length) {
+    warn("no roots found by", ROOTS_SELECTOR, "— using DOCUMENT as single root (fallback)");
+    runForRoot(document);
+  } else {
+    log("roots found:", roots.map(r=>r.id || r));
+    roots.forEach(runForRoot);
+    // следим за появлением НОВЫХ корней
+    const bodyObs = new MutationObserver(muts => {
+      for (const m of muts) {
+        for (const n of m.addedNodes) {
+          if (n.nodeType !== 1) continue;
+          if (n.matches?.(ROOTS_SELECTOR)) runForRoot(n);
+          n.querySelectorAll?.(ROOTS_SELECTOR).forEach(runForRoot);
+        }
       }
-    }
-  });
-  bodyObs.observe(document.body, { childList:true, subtree:true });
+    });
+    bodyObs.observe(document.body, { childList:true, subtree:true });
+  }
 
-  console.log("[multi-root] initialized for roots", ROOTS_SELECTOR);
+  console.log("%c[multi-root] READY", "color:#0a0; font-weight:bold");
 });
 
 //-------------------------------------------------------------------------------------------------------------------

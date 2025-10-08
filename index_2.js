@@ -134,116 +134,106 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
- // ========= НАСТРОЙКИ И ОТЛАДКА =========
-  const ROOTS_SELECTOR    = '[id^="R#"]';
-  const TOL               = 4;     // увеличил допуск для надёжности
-  const MIN_REAPPLY_MS    = 80;
-  const POLL_EVERY_MS     = 120;
-  const DEBUG             = true;
+ /* ===== НАСТРОЙКИ И ФЛАГИ ===== */
+  const ROOTS_SELECTOR   = '[id^="R#"]';  // корни вида R#000000006 …
+  const TOL              = 4;             // допуск по пикселям
+  const STRICT_HIDE_ONLY = true;          // считать только «чистые» .hide (без id, без других классов)
+  const DIRECT_GRAPHIC   = false;         // .sp_graphic может быть вложенным потомком
+  const DEBUG            = false;         // включи true, если хочешь логи
 
-  // Счёт hide для сценариев берём из «строгого» фильтра.
-  // Но дополнительно покажем в логах и «мягкий» счёт, чтобы сразу видеть расхождения.
-  const STRICT_HIDE_ONLY  = true;  // влияет на выбор сценария и фильтрацию .hide
-  const DIRECT_GRAPHIC    = false; // false = .sp_graphic может быть вложенным потомком (чтобы не промахнуться)
+  const log = (...a) => DEBUG && console.log("[fast]", ...a);
 
-  // ========= УТИЛИТЫ =========
-  const log  = (...a) => DEBUG && console.log("[pos-watch]", ...a);
-  const warn = (...a) => console.warn("[pos-watch]", ...a);
-
+  /* ===== УТИЛИТЫ (дешёвые) ===== */
   const isNumber = v => typeof v === "number" && Number.isFinite(v);
   const closeTo  = (a,b,t=TOL) => isNumber(a) && isNumber(b) && Math.abs(a-b) <= t;
 
-  // 1) чтение inline стилей, если явно заданы "px"
+  // читаем позицию: inline px -> computed px -> rect (как fallback)
   function readInlinePx(el) {
-    if (!el || !el.style) return { left: NaN, top: NaN, src: "inline-none" };
-    const l = el.style.left?.trim() || "";
-    const t = el.style.top?.trim()  || "";
-    const lp = l.endsWith("px") ? parseFloat(l) : NaN;
-    const tp = t.endsWith("px") ? parseFloat(t) : NaN;
-    return { left: isNumber(lp) ? Math.round(lp) : NaN, top: isNumber(tp) ? Math.round(tp) : NaN, src: "inline-px" };
+    const L = el.style?.left?.trim() || "", T = el.style?.top?.trim() || "";
+    const lp = L.endsWith("px") ? parseFloat(L) : NaN;
+    const tp = T.endsWith("px") ? parseFloat(T) : NaN;
+    return { left: isNumber(lp) ? Math.round(lp) : NaN, top: isNumber(tp) ? Math.round(tp) : NaN, src:"inline" };
   }
-
-  // 2) чтение computed (вдруг заданы в px)
   function readComputedPx(el) {
     const cs = getComputedStyle(el);
-    const l = cs.left?.trim() || "";
-    const t = cs.top?.trim()  || "";
-    const lp = l.endsWith("px") ? parseFloat(l) : NaN;
-    const tp = t.endsWith("px") ? parseFloat(t) : NaN;
-    return { left: isNumber(lp) ? Math.round(lp) : NaN, top: isNumber(tp) ? Math.round(tp) : NaN, src: "computed-px" };
+    const L = cs.left?.trim() || "", T = cs.top?.trim() || "";
+    const lp = L.endsWith("px") ? parseFloat(L) : NaN;
+    const tp = T.endsWith("px") ? parseFloat(T) : NaN;
+    return { left: isNumber(lp) ? Math.round(lp) : NaN, top: isNumber(tp) ? Math.round(tp) : NaN, src:"computed" };
   }
-
-  // 3) fallback: позиция по rect относительно ближайшего позиционированного предка
   function readRectRelative(el) {
-    const rect = el.getBoundingClientRect();
-    const parent = el.offsetParent || el.parentElement || document.documentElement;
-    const pr = parent.getBoundingClientRect ? parent.getBoundingClientRect() : { left:0, top:0 };
-    return { left: Math.round(rect.left - pr.left), top: Math.round(rect.top - pr.top), src: "rect-rel" };
+    const r = el.getBoundingClientRect();
+    const p = el.offsetParent || el.parentElement || document.documentElement;
+    const pr = p.getBoundingClientRect ? p.getBoundingClientRect() : { left:0, top:0 };
+    return { left: Math.round(r.left - pr.left), top: Math.round(r.top - pr.top), src:"rect" };
   }
-
-  // читаем позицию сразу из 3 источников; возвращаем первый подходящий
   function readBestPos(el) {
-    const a = readInlinePx(el);
-    if (isNumber(a.left) && isNumber(a.top)) return a;
-    const b = readComputedPx(el);
-    if (isNumber(b.left) && isNumber(b.top)) return b;
-    const c = readRectRelative(el);
-    return c;
+    const a = readInlinePx(el);   if (isNumber(a.left) && isNumber(a.top)) return a;
+    const b = readComputedPx(el); if (isNumber(b.left) && isNumber(b.top)) return b;
+    return readRectRelative(el);
   }
 
   function ensureAbsoluteAtCurrent(el) {
     const cs = getComputedStyle(el);
     if (cs.position === "" || cs.position === "static" || cs.position === "relative") {
-      const base = readRectRelative(el); // фиксируем фактическое положение
+      const base = readRectRelative(el);
       el.style.position = "absolute";
       el.style.left = base.left + "px";
       el.style.top  = base.top  + "px";
-      log("ensureAbsoluteAtCurrent", base, el);
     }
   }
 
-  // ========= ФИЛЬТРЫ HIDE =========
-  const isPureHide = el =>
-    el && el.nodeType === 1 && !el.id && el.classList?.length === 1 && el.classList.contains("hide");
-
+  // hide-фильтры
+  const isPureHide = el => el && el.nodeType === 1 && !el.id && el.classList?.length === 1 && el.classList.contains("hide");
   function hasSpGraphic(el) {
     if (!el) return false;
     if (DIRECT_GRAPHIC) {
-      for (const ch of el.children) {
-        if (ch.classList && ch.classList.contains("sp_graphic")) return true;
-      }
+      for (const ch of el.children) if (ch.classList?.contains("sp_graphic")) return true;
       return false;
     }
     return !!el.querySelector(".sp_graphic");
   }
+  const isTargetHideStrict = el => isPureHide(el) && hasSpGraphic(el);
+  const isTargetHideSoft   = el => el.classList?.contains("hide") && hasSpGraphic(el);
 
-  function isTargetHideStrict(el) {
-    // строгий: чистый class="hide" + sp_graphic
-    return isPureHide(el) && hasSpGraphic(el);
-  }
-  function isTargetHideSoft(el) {
-    // мягкий: любой .hide с sp_graphic (может и не чистый)
-    return el.classList?.contains("hide") && hasSpGraphic(el);
+  /* ===== ПО КАЖДОМУ КОРНЮ: КЭШ И ФУНКЦИИ ===== */
+  const roots = [];
+  const rootDirtyHide = new WeakMap();    // root -> dirty flag for hide count
+  const rootHideCount = new WeakMap();    // root -> {strict,soft} cache
+  const rootEntries   = new WeakMap();    // root -> resolved candidates per entry
+  const pendingJobs   = new Set();        // batched elements to (re)process
+
+  function getRoots() {
+    const list = document.querySelectorAll(ROOTS_SELECTOR);
+    return list.length ? Array.from(list) : [document]; // fallback: весь документ
   }
 
   function countHides(root, parentSel) {
+    if (!rootDirtyHide.get(root) && rootHideCount.get(root)) return rootHideCount.get(root);
     const scope = parentSel ? root.querySelector(parentSel) : root;
-    if (!scope) return { strict: 0, soft: 0 };
-
     let strict = 0, soft = 0;
-    scope.querySelectorAll(".hide").forEach(el => {
-      const disp = getComputedStyle(el).display;
-      if (disp === "none") return;
-      if (isTargetHideStrict(el)) strict++;
-      if (isTargetHideSoft(el))   soft++;
-    });
-    return { strict, soft };
+    if (scope) {
+      scope.querySelectorAll(".hide").forEach(el => {
+        if (getComputedStyle(el).display === "none") return;
+        if (isTargetHideStrict(el)) strict++;
+        if (isTargetHideSoft(el))   soft++;
+      });
+    }
+    const val = { strict, soft };
+    rootHideCount.set(root, val);
+    rootDirtyHide.set(root, false);
+    return val;
   }
 
-  // ========= СОВПАДЕНИЕ С ТАРГЕТОМ =========
-  function indexByTargets(pos, targets) {
-    // считаем попадание, если совпал хотя бы в одном режиме чтения
-    for (let i = 0; i < targets.length; i++) {
+  function pickScenario(root, entry) {
+    const cnt = countHides(root, entry.parentSelector);
+    const key = String(STRICT_HIDE_ONLY ? cnt.strict : cnt.soft);
+    const sc  = (entry.scenarios || {})[key] || (entry.scenarios || {})["default"] || null;
+    return sc; // {targets, percents}
+  }
+
+  function matchIndex(pos, targets) {
+    for (let i=0;i<targets.length;i++) {
       const t = targets[i];
       if (closeTo(pos.left, t.left) && closeTo(pos.top, t.top)) return i;
     }
@@ -255,167 +245,145 @@ document.addEventListener("DOMContentLoaded", () => {
     if (p.top  != null) el.style.top  = p.top  + "%";
   }
 
-  function applyPercent(el, entryName, idx, percents, rootName) {
-    if (idx < 0 || idx >= percents.length) return false;
-    const last = Number(el.dataset._pctAt || 0);
-    if (Date.now() - last < MIN_REAPPLY_MS) return false;
+  function applyPercent(el, perc) {
     ensureAbsoluteAtCurrent(el);
     el.dataset._pctLock = "1";
-    setPercent(el, percents[idx]);
+    setPercent(el, perc);
     el.dataset._pctAt = String(Date.now());
-    log("APPLY%", { root: rootName, entry: entryName, idx, perc: percents[idx] });
-    setTimeout(() => { delete el.dataset._pctLock; }, MIN_REAPPLY_MS);
-    return true;
+    // снимаем лок чуть позже, чтобы не ловить эха
+    queueMicrotask(() => { delete el.dataset._pctLock; });
   }
 
-  // ========= ОБРАБОТЧИК ДЛЯ ОДНОГО ROOT =========
-  function runForRoot(root) {
-    const rootName = root.id || "(document)";
-    log("INIT ROOT:", rootName);
+  function processElement(root, el, entry) {
+    if (!el || !el.isConnected || el.dataset._pctLock) return;
 
-    // Диагностика hide
-    const totals = countHides(root, null);
-    log("root hides: strict=", totals.strict, "soft=", totals.soft);
+    // .hide — пропускаем нецелевые (экономим расчёты)
+    if (el.classList?.contains("hide")) {
+      if (STRICT_HIDE_ONLY && !isTargetHideStrict(el)) return;
+      if (!STRICT_HIDE_ONLY && !isTargetHideSoft(el)) return;
+    }
 
+    if (getComputedStyle(el).display === "none") return;
+
+    const sc = pickScenario(root, entry);
+    if (!sc || !sc.targets || !sc.percents || sc.targets.length !== sc.percents.length) return;
+
+    const posA = readInlinePx(el);
+    let idx = matchIndex(posA, sc.targets);
+    if (idx < 0) {
+      const posB = readComputedPx(el);
+      idx = matchIndex(posB, sc.targets);
+      if (idx < 0) {
+        const posC = readRectRelative(el);
+        idx = matchIndex(posC, sc.targets);
+      }
+    }
+    if (idx >= 0) applyPercent(el, sc.percents[idx]);
+  }
+
+  // батчер — обрабатываем элементы пачкой (один layout-проход вместо десятков)
+  let scheduled = false;
+  function schedule(el, root, entry) {
+    pendingJobs.add({ el, root, entry });
+    if (scheduled) return;
+    scheduled = true;
+    // максимально дешёвая батч-очередь
+    setTimeout(() => {
+      const jobs = Array.from(pendingJobs);
+      pendingJobs.clear();
+      scheduled = false;
+      for (const { el, root, entry } of jobs) processElement(root, el, entry);
+    }, 0);
+  }
+
+  // разрешаем кандидатов для entry в конкретном корне (один раз)
+  function resolveCandidates(root, entry) {
+    const set = new Set();
+    entry.selectorsAll?.forEach(sel => root.querySelectorAll(sel).forEach(n => set.add(n)));
+    entry.selectors?.forEach(sel => { const n = root.querySelector(sel); if (n) set.add(n); });
+    if (entry.parentSelector && Number.isInteger(entry.childIndex)) {
+      const p = root.querySelector(entry.parentSelector);
+      if (p) { const kids = p.children; const n = kids[entry.childIndex]; if (n) set.add(n); }
+    }
+    return Array.from(set);
+  }
+
+  // инициализация по корню
+  function initRoot(root) {
+    rootDirtyHide.set(root, true);
+    const map = new Map(); // entryName -> [nodes]
     ENTRIES.forEach(entry => {
-      const parentSel = entry.parentSelector || null;
-      const cnt = countHides(root, parentSel);
-      const map = entry.scenarios || {};
-      const key = String(STRICT_HIDE_ONLY ? cnt.strict : cnt.soft);
-      const scenario = map[key] || map["default"];
-
-      log("scenario pick", { root: rootName, entry: entry.name, parentSel, strictCount: cnt.strict, softCount: cnt.soft, usedKey: map[key] ? key : "default" });
-
-      // кандидаты (в корне!)
-      const set = new Set();
-      entry.selectorsAll?.forEach(sel => root.querySelectorAll(sel).forEach(el => set.add(el)));
-      entry.selectors?.forEach(sel => { const el = root.querySelector(sel); if (el) set.add(el); });
-      if (entry.parentSelector && Number.isInteger(entry.childIndex)) {
-        const parent = root.querySelector(entry.parentSelector);
-        if (parent) {
-          const kids = Array.from(parent.children);
-          const el = kids[entry.childIndex];
-          if (el) set.add(el);
-        } else {
-          warn("parent not found for", entry.name, parentSel, "in", rootName);
-        }
-      }
-      const candidates = Array.from(set);
-      if (!candidates.length) {
-        warn("no candidates", entry.name, "in", rootName);
-        return;
-      }
-
-      candidates.forEach(el => {
-        if (el.dataset._pctLock) return;
-
-        // если это .hide — при STRICT_HIDE_ONLY требуем строгую целевость
-        if (STRICT_HIDE_ONLY && el.classList?.contains("hide") && !isTargetHideStrict(el)) {
-          log("skip non-strict .hide", el);
-          return;
-        }
-
-        const disp = getComputedStyle(el).display;
-        if (disp === "none") { log("skip display:none", el); return; }
-
-        // нет сценария — нечего применять, но логируем координаты, чтобы сверить с таргетами
-        if (!scenario || !scenario.targets || !scenario.percents || scenario.targets.length !== scenario.percents.length) {
-          const dbgPos = readBestPos(el);
-          log("NO SCENARIO", { root: rootName, entry: entry.name, pos: dbgPos, el });
-          return;
-        }
-
-        // читаем позицию и пробуем матчить
-        const inlinePos   = readInlinePx(el);
-        const computedPos = readComputedPx(el);
-        const rectPos     = readRectRelative(el);
-
-        let idx = indexByTargets(inlinePos,   scenario.targets);
-        if (idx < 0) idx = indexByTargets(computedPos, scenario.targets);
-        if (idx < 0) idx = indexByTargets(rectPos,     scenario.targets);
-
-        log("check", { root: rootName, entry: entry.name, inlinePos, computedPos, rectPos, idx });
-
-        if (idx >= 0) {
-          applyPercent(el, entry.name, idx, scenario.percents, rootName);
-        }
-
-        // Вешаем наблюдение (аттрибуты + rAF)
-        if (!el._pctAttached) {
-          el._pctAttached = true;
-
-          const mo = new MutationObserver(() => {
-            if (!el.dataset._pctLock) {
-              const pInline   = readInlinePx(el);
-              const pComputed = readComputedPx(el);
-              const pRect     = readRectRelative(el);
-              let i = indexByTargets(pInline, scenario.targets);
-              if (i < 0) i = indexByTargets(pComputed, scenario.targets);
-              if (i < 0) i = indexByTargets(pRect, scenario.targets);
-              if (i >= 0) applyPercent(el, entry.name, i, scenario.percents, rootName);
-            }
-          });
-          mo.observe(el, { attributes: true, attributeFilter: ["style", "class"] });
-
-          let lastTick = 0;
-          function tick(ts) {
-            if (!el.isConnected) return;
-            if (ts - lastTick >= POLL_EVERY_MS) {
-              lastTick = ts;
-              if (!el.dataset._pctLock) {
-                const pInline   = readInlinePx(el);
-                const pComputed = readComputedPx(el);
-                const pRect     = readRectRelative(el);
-                let i = indexByTargets(pInline, scenario.targets);
-                if (i < 0) i = indexByTargets(pComputed, scenario.targets);
-                if (i < 0) i = indexByTargets(pRect, scenario.targets);
-                if (i >= 0) applyPercent(el, entry.name, i, scenario.percents, rootName);
-              }
-            }
-            requestAnimationFrame(tick);
-          }
-          requestAnimationFrame(tick);
-        }
-      });
+      const nodes = resolveCandidates(root, entry);
+      map.set(entry.name, nodes);
+      nodes.forEach(n => schedule(n, root, entry));
     });
-
-    // следим за добавлениями внутри root
-    const ro = new MutationObserver(muts => {
-      for (const m of muts) {
-        for (const n of m.addedNodes) {
-          if (n.nodeType !== 1) continue;
-          // простой повтор инициализации для новых нод
-          runForRoot(root);
-          return; // одной итерации достаточно — дальше обработаем на следующем цикле
-        }
-      }
-    });
-    ro.observe(root, { childList: true, subtree: true });
+    rootEntries.set(root, map);
   }
 
-  // ========= ЗАПУСК =========
-  const roots = Array.from(document.querySelectorAll(ROOTS_SELECTOR));
-  if (!roots.length) {
-    warn("no roots", ROOTS_SELECTOR, "— using document fallback");
-    runForRoot(document);
-  } else {
-    log("roots:", roots.map(r => r.id || r));
-    roots.forEach(runForRoot);
-
-    // новые корни
-    const bodyObs = new MutationObserver(muts => {
-      for (const m of muts) {
-        for (const n of m.addedNodes) {
-          if (n.nodeType !== 1) continue;
-          if (n.matches?.(ROOTS_SELECTOR)) runForRoot(n);
-          n.querySelectorAll?.(ROOTS_SELECTOR).forEach(runForRoot);
-        }
-      }
+  // обновить root при изменениях .hide (пересчитать сценарии и переобработать кандидатов)
+  function refreshRootForHideChanges(root) {
+    rootDirtyHide.set(root, true);
+    const map = rootEntries.get(root);
+    if (!map) return;
+    ENTRIES.forEach(entry => {
+      const nodes = map.get(entry.name) || [];
+      nodes.forEach(n => schedule(n, root, entry));
     });
-    bodyObs.observe(document.body, { childList:true, subtree:true });
   }
 
-  console.log("%c[pos-watch ready]", "color:#0a0;font-weight:bold");
+  // глобальный наблюдатель
+  const MO = new MutationObserver(muts => {
+    let anyHideChange = false;
+    for (const m of muts) {
+      // интересуют только ELEMENT узлы
+      if (m.type === "childList") {
+        // добавление/удаление .hide влияет на сценарий
+        for (const n of m.addedNodes) {
+          if (n.nodeType !== 1) continue;
+          if (n.classList?.contains("hide") || n.querySelector?.(".hide")) anyHideChange = true;
+          // новые корни
+          if (n.matches?.(ROOTS_SELECTOR)) { initRoot(n); }
+          n.querySelectorAll?.(ROOTS_SELECTOR).forEach(initRoot);
+        }
+        for (const n of m.removedNodes) {
+          if (n.nodeType !== 1) continue;
+          if (n.classList?.contains("hide") || n.querySelector?.(".hide")) anyHideChange = true;
+        }
+      } else if (m.type === "attributes") {
+        const el = m.target;
+        // смена display/class у .hide — может поменять их количество
+        if (el.classList?.contains("hide")) anyHideChange = true;
+
+        // если элемент — один из кандидатов, обработаем точечно
+        // найдём, к какому root он относится (ближайший предок-root либо документ)
+        let root = el.closest(ROOTS_SELECTOR) || document;
+        const map = rootEntries.get(root);
+        if (!map) continue;
+
+        ENTRIES.forEach(entry => {
+          const nodes = map.get(entry.name);
+          if (!nodes) return;
+          if (nodes.includes(el)) schedule(el, root, entry);
+        });
+      }
+    }
+    if (anyHideChange) {
+      // обновляем все затронутые корни (быстро: лишь отметим "грязно" и батч-обработаем кандидатов)
+      const currentRoots = getRoots();
+      currentRoots.forEach(refreshRootForHideChanges);
+    }
+  });
+  MO.observe(document.documentElement || document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["style", "class"]
+  });
+
+  // старт
+  const startRoots = getRoots();
+  startRoots.forEach(r => { roots.push(r); initRoot(r); });
+  log("ready, roots:", roots.map(r => r.id || "(document)"));
 });
 //-------------------------------------------------------------------------------------------------------------------
 

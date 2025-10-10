@@ -1,4 +1,4 @@
-/* #mControlsUnhideBtn {
+#mControlsUnhideBtn {
   right: 185px !important;
   top: 2% !important;
   width: 30px !important;
@@ -10,7 +10,7 @@
 
 #mControlsUnhideBtn > button {
   background-image: none !important;
-} */
+}
 
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
   .tablecontent {

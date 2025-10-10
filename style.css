@@ -67,7 +67,7 @@
   padding: 4px !important;
 }
 
-.nextPanel {
+/* .nextPanel {
   top: 95% !important;
 }
 
@@ -202,7 +202,7 @@
 #OpenTableControls {
   z-index: 100 !important;
   top: 0px;
-}
+} */
 
 .scrollbar {
   background: #474747 !important;

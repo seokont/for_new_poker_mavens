@@ -1,287 +1,93 @@
 #mControlsUnhideBtn {
-    right: 185px !important;
-    top: 2% !important;
-    width: 30px !important;
-    bottom: 0px !important;
-    z-index: 101 !important;
-    height: 30px !important;
-    border-radius: 50% !important;
+  right: 185px !important;
+  top: 2% !important;
+  width: 30px !important;
+  bottom: 0px !important;
+  z-index: 101 !important;
+  height: 30px !important;
+  border-radius: 50% !important;
 }
 
-#mControlsUnhideBtn>button {
-
-    background-image: none !important;
+#mControlsUnhideBtn > button {
+  background-image: none !important;
 }
 
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
-
-    .tablecontent {
-        transform: scale(1.33143, 0.809412) !important;
-
-    }
+  .tablecontent {
+    transform: scale(1.33143, 0.809412) !important;
+  }
 }
-
 
 @media (orientation: landscape) {
+  .sp_graphic[style*="Name=SeatEmpty"] {
+    height: 50px !important;
+    width: 50px !important;
+  }
 
-    .sp_graphic[style*="Name=SeatEmpty"] {
-        height: 50px !important;
-        width: 50px !important;
-    }
-
-    .sp_graphic {
-        /* background-repeat: no-repeat !important; */
-        background-size: cover !important;
-        opacity: 1 !important;
-        height: 57px !important;
-        width: 131px !important;
-        background-image: url("https://i.ibb.co/LyZpkyd/seat-7.png") !important;
-        margin: -10px 0 0 0px;
-    }
-
+  .sp_graphic {
+    /* background-repeat: no-repeat !important; */
+    background-size: cover !important;
+    opacity: 1 !important;
+    height: 57px !important;
+    width: 131px !important;
+    background-image: url("https://i.ibb.co/LyZpkyd/seat-7.png") !important;
+    margin: -10px 0 0 0px;
+  }
 }
 
-
-@media (orientation: portrait) and (max-width: 768px) {
-
-    #OpenTableBox {
-        inset: 0px 0px 0px 0px !important;
-    }
-
-    #OpenTab {
-        background-color: rgb(0, 0, 0, 0) !important;
-        background-image: url("https://i.ibb.co/Xr0c14m0/fon-2.png");
-        background-size: 189px 189px !important;
-    }
-
-    .tablecontent {
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        color: rgb(255, 255, 255);
-        background: url("https://i.ibb.co/QvbpSd36/poker-table-illustration-top-view.png") 0px 0px / 100% 100% no-repeat !important;
-        transform: none !important;
-
-
-        padding-top: env(safe-area-inset-top);
-        /* Для "челки" сверху */
-        padding-right: env(safe-area-inset-right);
-        /* Для закругленного правого края */
-        padding-left: env(safe-area-inset-left);
-        /* Для закругленного левого края */
-        padding-bottom: env(safe-area-inset-bottom);
-        /* Для нижней панели */
-
-
-        margin-bottom: env(safe-area-inset-bottom);
-
-        bottom: calc(10px + env(safe-area-inset-bottom));
-
-        padding-bottom: env(safe-area-inset-bottom) !important;
-        padding-bottom: constant(safe-area-inset-bottom) !important;
-
-        /* Для того, чтобы учесть отступ в высоте всего элемента, 
-       можно использовать box-sizing: border-box; */
-        box-sizing: border-box !important;
-
-    }
-
-    .sp_graphic[style*="Name=SeatEmpty"] {
-        height: 100px !important;
-        width: 100px !important;
-    }
-
-    .bannermiddle {
-        top: 88% !important;
-        left: 150px !important;
-        font-size: 27px !important;
-    }
-
-    .commandbtn4 {
-        top: 91% !important;
-    }
-
-    .raisebox {
-        top: 87% !important;
-        left: 60% !important;
-        width: 36% !important;
-        border-radius: 7px !important;
-
-    }
-
-    .raisebox>.raiseinput {
-        font-size: 27px !important;
-    }
-
-    .raisebox>.raiseslider {
-        width: 237px !important;
-    }
-
-    .betbtn1 {
-        width: 79px !important;
-        height: 57px !important;
-        font-size: 30px !important;
-        top: 90% !important;
-        left: 57% !important;
-    }
-
-    .betbtn1>button {
-        background: linear-gradient(to bottom, #299a0b 0%, #267c09 47%, #3e7a09 100%) !important;
-        border: 1px outset #299a0b !important;
-        border-radius: 7px !important;
-    }
-
-
-    .betbtn2 {
-        width: 79px !important;
-        height: 57px !important;
-        font-size: 30px !important;
-        top: 90% !important;
-        left: 68% !important;
-    }
-
-    .betbtn2>button {
-        background: linear-gradient(to bottom, #299a0b 0%, #267c09 47%, #3e7a09 100%) !important;
-        border: 1px outset #299a0b !important;
-        border-radius: 7px !important;
-    }
-
-    .betbtn3 {
-        width: 79px !important;
-        height: 57px !important;
-        font-size: 30px !important;
-        top: 90% !important;
-        left: 79% !important;
-    }
-
-    .betbtn3>button {
-        background: linear-gradient(to bottom, #299a0b 0%, #267c09 47%, #3e7a09 100%) !important;
-        border: 1px outset #299a0b !important;
-        border-radius: 7px !important;
-    }
-
-    .betbtn4 {
-        width: 79px !important;
-        height: 57px !important;
-        font-size: 30px !important;
-        top: 90% !important;
-        left: 90% !important;
-    }
-
-    .betbtn4>button {
-        background: linear-gradient(to bottom, #299a0b 0%, #267c09 47%, #3e7a09 100%) !important;
-        border: 1px outset #299a0b !important;
-        border-radius: 7px !important;
-    }
-
-
-
-    .timebankbtn {
-        height: 57px !important;
-        font-size: 30px !important;
-        top: 90% !important;
-        left: 23% !important;
-        width: 29% !important;
-    }
-
-    .timebankbtn>button {
-        background: linear-gradient(to bottom, #299a0b 0%, #267c09 47%, #3e7a09 100%) !important;
-        border: 1px outset #299a0b !important;
-        border-radius: 7px !important;
-    }
-
-
-    .commandbtn1,
-    .commandbtn2,
-    .commandbtn3 {
-        top: 94% !important;
-    }
-
-
-    .commandbtn1 {
-        height: 80px !important;
-        width: 27% !important;
-        left: 3% !important;
-    }
-
-    .commandbtn1>button {
-        background: linear-gradient(to bottom, #046bf9 0%, #0451ea 44%, #0076ed 100%) !important;
-        border: 1px outset #046bf9 !important;
-        font-size: 30px !important;
-        border-radius: 7px !important;
-        padding: 4px !important
-    }
-
-    .commandbtn2 {
-        height: 80px !important;
-        width: 27% !important;
-        left: 36.7% !important;
-    }
-
-    div.chipstack:nth-child(65) {
-        left: 50% !important;
-        top: 54% !important;
-        transform: scale(1.8) !important;
-    }
-
-    div:nth-child(3)>div:nth-child(66) {
-        left: 49.5% !important;
-        top: 55.5% !important;
-        font-size: 27px !important;
-
-    }
-    .sp_name,
-    .sp_info {
-
-  left: 0px !important;
-}
-
-}
-
-.commandbtn2>button {
-    background: linear-gradient(to bottom, #e80404 0%, #ea0404 44%, #aa0000 100%) !important;
-    border: 1px outset red !important;
-    font-size: 30px !important;
-    border-radius: 7px !important;
-    padding: 4px !important
+.commandbtn2 > button {
+  background: linear-gradient(
+    to bottom,
+    #e80404 0%,
+    #ea0404 44%,
+    #aa0000 100%
+  ) !important;
+  border: 1px outset red !important;
+  font-size: 30px !important;
+  border-radius: 7px !important;
+  padding: 4px !important;
 }
 
 .commandbtn3 {
-    height: 80px !important;
-    width: 27% !important;
-    left: 70% !important;
+  height: 80px !important;
+  width: 27% !important;
+  left: 70% !important;
 }
 
-.commandbtn3>button {
-    background: linear-gradient(to bottom, #299a0b 0%, #267c09 47%, #3e7a09 100%) !important;
-    border: 1px outset #299a0b !important;
-    font-size: 30px !important;
-    border-radius: 7px !important;
-    padding: 4px !important;
+.commandbtn3 > button {
+  background: linear-gradient(
+    to bottom,
+    #299a0b 0%,
+    #267c09 47%,
+    #3e7a09 100%
+  ) !important;
+  border: 1px outset #299a0b !important;
+  font-size: 30px !important;
+  border-radius: 7px !important;
+  padding: 4px !important;
 }
 
 .nextPanel {
-    top: 95% !important;
+  top: 95% !important;
 }
 
 .foldanybet {
-    top: 82% !important;
-    left: 28px !important;
+  top: 82% !important;
+  left: 28px !important;
 }
 
 .outnexthand {
-    top: 85% !important;
-    left: 29px !important;
+  top: 85% !important;
+  left: 29px !important;
 }
 
 .outnextblind {
-    top: 88% !important;
-    left: 28px !important;
+  top: 88% !important;
+  left: 28px !important;
 }
 
 .nextmove2 {
-    left: 390px !important;
+  left: 390px !important;
 }
 
 .outnexthand .checkbox,
@@ -293,11 +99,10 @@
 .nextmove2 .checkbox,
 .nextmove3 .checkbox,
 .nextmove4 .checkbox {
-    width: 32px !important;
-    height: 32px !important;
-    background: url("https://i.ibb.co/yBpV6ZYn/checkBox.png") 0% 0% / 32px 32px !important;
-    background-color: rgba(0, 0, 0, 0) !important;
-
+  width: 32px !important;
+  height: 32px !important;
+  background: url("https://i.ibb.co/yBpV6ZYn/checkBox.png") 0% 0% / 32px 32px !important;
+  background-color: rgba(0, 0, 0, 0) !important;
 }
 
 .outnexthand .checkbox_check,
@@ -309,7 +114,7 @@
 .nextmove2 .checkbox_check,
 .nextmove3 .checkbox_check,
 .nextmove4 .checkbox_check {
-    background: url("https://i.ibb.co/whRz2xcX/check-Box-Chek.png") !important;
+  background: url("https://i.ibb.co/whRz2xcX/check-Box-Chek.png") !important;
 }
 
 .outnexthand .checkbox_label,
@@ -321,164 +126,155 @@
 .nextmove2 .checkbox_label,
 .nextmove3 .checkbox_label,
 .nextmove4 .checkbox_label {
-    line-height: 31px !important;
-    font-size: 2em !important;
+  line-height: 31px !important;
+  font-size: 2em !important;
 }
 
-
-
 .sp_avatar {
-    top: -99px !important;
-    left: 23px !important;
-    width: 120px !important;
-    height: 120px !important;
-    /* background: none !important; */
-    border-radius: 50% !important;
-    /* background-color: #000 !important; */
-    background-size: auto 115px !important;
-    border: 1px solid #fff !important;
+  top: -99px !important;
+  left: 23px !important;
+  width: 120px !important;
+  height: 120px !important;
 
+  border-radius: 50% !important;
+
+  background-size: auto 115px !important;
+  border: 1px solid #fff !important;
 }
 
 .sp_graphic {
-    /* background-repeat: no-repeat !important;
-	 background-size: cover !important; */
-    opacity: 1 !important;
-    height: 57px !important;
-    width: 131px !important;
-    background-image: none !important;
+  opacity: 1 !important;
+  height: 57px !important;
+  width: 131px !important;
+  background-image: none !important;
 
-    margin: -10px 0 0 0px;
+  margin: -10px 0 0 0px;
 }
 
 .straddle {
-    top: 81% !important;
-    left: 67% !important;
+  top: 81% !important;
+  left: 67% !important;
 }
 
 .runtwice {
-    top: 84% !important;
-    left: 67% !important;
+  top: 84% !important;
+  left: 67% !important;
 }
 
-
 .bannerleft {
-    top: 62% !important;
-    left: 37% !important;
-    font-size: 27px !important;
+  top: 62% !important;
+  left: 37% !important;
+  font-size: 27px !important;
 }
 
 .bannerright2 {
-    top: 62% !important;
-    right: 34% !important;
-    font-size: 27px !important;
+  top: 62% !important;
+  right: 34% !important;
+  font-size: 27px !important;
 }
 
 .bannerright {
-    top: 65% !important;
-    right: 40% !important;
-    font-size: 27px !important;
+  top: 65% !important;
+  right: 40% !important;
+  font-size: 27px !important;
 }
 
 .totalplate {
+  line-height: 30px !important;
+  left: 46% !important;
+  top: 29% !important;
+  width: 87px !important;
+  height: 62px !important;
 
-    line-height: 30px !important;
-    left: 46% !important;
-    top: 29% !important;
-    width: 87px !important;
-    height: 62px !important;
-
-    font-size: 30px !important;
-    padding: 5px !important;
-    background: none !important;
-    border-radius: 7px !important;
-    color: #fff !important;
+  font-size: 30px !important;
+  padding: 5px !important;
+  background: none !important;
+  border-radius: 7px !important;
+  color: #fff !important;
 }
 
 .tablemessage {
-    left: 25% !important;
-    top: 91% !important;
-    font-size: 27px !important;
+  left: 25% !important;
+  top: 91% !important;
+  font-size: 27px !important;
 }
 
-
-
 #OpenTableControls {
-    z-index: 100 !important;
-    top: 0px
+  z-index: 100 !important;
+  top: 0px;
 }
 
 .scrollbar {
-    background: #474747 !important;
-    border-color: #373737 !important;
+  background: #474747 !important;
+  border-color: #373737 !important;
 }
 
 .scrollbar_thumb {
-    background: #888888 !important;
-    border: 0 !important;
-    border-radius: 19px;
+  background: #888888 !important;
+  border: 0 !important;
+  border-radius: 19px;
 }
 
 .scrollbar_down,
 .scrollbar_up {
-    border: 0 !important;
+  border: 0 !important;
 }
 
 body::-webkit-scrollbar {
-    width: 16px;
+  width: 16px;
 }
 
 body::-webkit-scrollbar-corner {
-    background-color: #474747;
+  background-color: #474747;
 }
 
 body::-webkit-scrollbar-thumb {
-    border-radius: 19px;
-    background-color: #888;
-    border: 4px solid transparent;
-    background-clip: content-box;
+  border-radius: 19px;
+  background-color: #888;
+  border: 4px solid transparent;
+  background-clip: content-box;
 }
 
 body::-webkit-scrollbar-track {
-    background-color: #474747;
-    border: 1px solid #373737;
+  background-color: #474747;
+  border: 1px solid #373737;
 }
 
 #FontSize {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .titlewindowsbtn,
 .defaultwindowsizebtn {
-    top: 7px;
-    width: 16px;
-    height: 16px;
-    text-align: center;
-    line-height: 16px;
-    color: #595959;
-    font-weight: bold;
+  top: 7px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+  color: #595959;
+  font-weight: bold;
 }
 
 .titlewindowsbtn {
-    right: 30px;
+  right: 30px;
 }
 
 .defaultwindowsizebtn {
-    right: 50px;
+  right: 50px;
 }
 
 .defaultwindowsizebtn:before,
 .titlewindowsbtn:before {
-    width: 100%;
-    display: block;
+  width: 100%;
+  display: block;
 }
 
 .defaultwindowsizebtn:before {
-    content: "\2699";
+  content: "\2699";
 }
 
 .titlewindowsbtn:before {
-    content: "\2610";
+  content: "\2610";
 }
 
 #AccountInfo .dialogcontent .bevel:nth-child(6),
@@ -488,186 +284,203 @@ body::-webkit-scrollbar-track {
 #ai_pw_label2,
 #ai_pw_input2,
 #ai_pw_desc {
-    display: none !important;
+  display: none !important;
 }
 
 #AccountLogout,
 #LobbyExit,
 #Lobby .closebtn {
-    display: none !important;
+  display: none !important;
 }
 
 #SitePanel {
-    font-size: 0 !important;
-    background-position: right center;
-    background-repeat: no-repeat;
-    background-color: #303030 !important;
+  font-size: 0 !important;
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-color: #303030 !important;
 }
 
 #LoginSelected,
 #RingSelected,
 #TourneySelected,
 #SitnGoSelected {
-    font-size: 0 !important;
+  font-size: 0 !important;
 }
 
 .cardshade {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .dialog,
 .header {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .header {
-    background: #363937 !important;
-    background: -moz-linear-gradient(top, #363937 0%, #363937 3%, #141414 3%, #141414 3%, #141414 96%, #141414 96%, #363937 97%, #363937 100%) !important;
-    background: -webkit-linear-gradient(top, #363937 0%, #363937 3%, #141414 3%, #141414 3%, #141414 96%, #141414 96%, #363937 97%, #363937 100%) !important;
-    background: linear-gradient(to bottom, #363937 0%, #363937 3%, #141414 3%, #141414 3%, #141414 96%, #141414 96%, #363937 97%, #363937 100%) !important;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#363937', endColorstr='#363937', GradientType=0) !important;
+  background: #363937 !important;
+  background: -moz-linear-gradient(
+    top,
+    #363937 0%,
+    #363937 3%,
+    #141414 3%,
+    #141414 3%,
+    #141414 96%,
+    #141414 96%,
+    #363937 97%,
+    #363937 100%
+  ) !important;
+  background: -webkit-linear-gradient(
+    top,
+    #363937 0%,
+    #363937 3%,
+    #141414 3%,
+    #141414 3%,
+    #141414 96%,
+    #141414 96%,
+    #363937 97%,
+    #363937 100%
+  ) !important;
+  background: linear-gradient(
+    to bottom,
+    #363937 0%,
+    #363937 3%,
+    #141414 3%,
+    #141414 3%,
+    #141414 96%,
+    #141414 96%,
+    #363937 97%,
+    #363937 100%
+  ) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#363937', endColorstr='#363937', GradientType=0) !important;
 }
 
 #client_div .grid {
-    border-color: #303030 !important;
+  border-color: #303030 !important;
 }
 
 .grid_header {
-    background: #404040 !important;
-    color: #bbb !important;
+  background: #404040 !important;
+  color: #bbb !important;
 }
 
-.grid_data>div {
-    border-right-color: #6e6e6e !important;
+.grid_data > div {
+  border-right-color: #6e6e6e !important;
 }
 
 .menu {
-    background: #303030 !important;
-    color: #fff !important;
+  background: #303030 !important;
+  color: #fff !important;
 }
 
 .tabs {
-    background-color: #303030 !important;
+  background-color: #303030 !important;
 }
 
-.tabs>ul {
-    background: #157c13 !important;
-    width: calc(100% - 6px) !important;
+.tabs > ul {
+  background: #157c13 !important;
+  width: calc(100% - 6px) !important;
 }
 
-.tabs>ul>li {
-    border-radius: 0 !important;
-    background: none !important;
-    color: #fff !important;
-    line-height: 30px !important;
-    top: 0px !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    cursor: pointer;
+.tabs > ul > li {
+  border-radius: 0 !important;
+  background: none !important;
+  color: #fff !important;
+  line-height: 30px !important;
+  top: 0px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer;
 }
 
-.tabs>ul[style*="height: 40px"]>li {
-    line-height: 40px !important;
+.tabs > ul[style*="height: 40px"] > li {
+  line-height: 40px !important;
 }
 
-.tabs>ul>li:after {
-    background-color: #fff;
-    width: 100%;
-    height: 2px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    content: " ";
-    display: none;
+.tabs > ul > li:after {
+  background-color: #fff;
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  content: " ";
+  display: none;
 }
 
-.tabs>ul>li[style*="font-weight: bold"]:after {
-    display: block;
+.tabs > ul > li[style*="font-weight: bold"]:after {
+  display: block;
 }
 
 button:hover {
-    background: #eaad48 !important;
-    color: #000 !important;
+  background: #eaad48 !important;
+  color: #000 !important;
 }
 
 .sp_info {
-    color: #fcdf15 !important;
+  color: #fcdf15 !important;
 }
 
 .sp_glow {
-    border-radius: 26px;
-    height: 41px;
+  border-radius: 26px;
+  height: 41px;
 }
 
 .sp_seat {
-    -webkit-backface-visibility: hidden;
-    -webkit-transform: translateZ(0) scale(1.0, 1.0);
-    transform: translateZ(0);
-
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0) scale(1, 1);
+  transform: translateZ(0);
 }
 
 .sp_graphic {
-    -webkit-backface-visibility: hidden !important;
-    backface-visibility: hidden !important;
-    -webkit-transform: translateZ(0) scale(1.0, 1.0) !important;
-    transform: translateZ(0) !important;
-
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  -webkit-transform: translateZ(0) scale(1, 1) !important;
+  transform: translateZ(0) !important;
 }
 
 .sp_graphic[style*="Name=SeatEmpty"] {
-    background-image: url("https://i.ibb.co/B2dzxF6y/empty-seat11.png") !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-    opacity: 1 !important;
+  background-image: url("https://i.ibb.co/B2dzxF6y/empty-seat11.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  opacity: 1 !important;
 
-    margin: -4px 0 0 40px;
+  margin: -4px 0 0 40px;
 }
-
-
-
 
 #Lobby {
-    background: #303030 !important;
+  background: #303030 !important;
 }
 
-
 @media (max-width: 1024px) {
-
-
-    /*
+  /*
 	#OpenTableBox {
 		overflow: hidden;
 	}
 	*/
-    #OpenTableBox .dialog .shader {
-        display: none !important;
-    }
+  #OpenTableBox .dialog .shader {
+    display: none !important;
+  }
 
-    #OpenTableBox .dialog {
-        background-color: transparent !important;
-    }
+  #OpenTableBox .dialog {
+    background-color: transparent !important;
+  }
 
-    #SitePanel {
-        background-image: none !important;
-    }
-
-
+  #SitePanel {
+    background-image: none !important;
+  }
 }
 
 @media (min-width: 1024px) {
+  div#Login.dialog {
+    left: 20px !important;
+  }
 
-
-    div#Login.dialog {
-        left: 20px !important;
-    }
-
-    div.div_one {
-        position: bottom center !important;
-    }
+  div.div_one {
+    position: bottom center !important;
+  }
 }
 
-
 #OpenTableControls {
-    position: absolute !important;
-    z-index: 3 !important;
+  position: absolute !important;
+  z-index: 3 !important;
 }

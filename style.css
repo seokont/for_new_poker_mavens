@@ -1,4 +1,4 @@
-#mControlsUnhideBtn {
+/* #mControlsUnhideBtn {
   right: 185px !important;
   top: 2% !important;
   width: 30px !important;
@@ -10,7 +10,7 @@
 
 #mControlsUnhideBtn > button {
   background-image: none !important;
-}
+} */
 
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
   .tablecontent {
@@ -35,7 +35,7 @@
   }
 }
 
-.commandbtn2 > button {
+/* .commandbtn2 > button {
   background: linear-gradient(
     to bottom,
     #e80404 0%,
@@ -65,7 +65,7 @@
   font-size: 30px !important;
   border-radius: 7px !important;
   padding: 4px !important;
-}
+} */
 
 /* .nextPanel {
   top: 95% !important;

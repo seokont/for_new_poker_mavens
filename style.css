@@ -15,6 +15,7 @@
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
   .tablecontent {
     transform: scale(1.33143, 1.009) !important;
+    top: -8px !important;
   }
 }
 

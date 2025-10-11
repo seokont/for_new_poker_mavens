@@ -44,6 +44,13 @@
     top: 28% !important;
     left: 32% !important;
   }
+
+
+  .raisebox {   
+  left: 556px !important;
+  top: 280px !important; 
+  transform: rotate(-90deg) !important;
+  
 }
 
 @media (orientation: landscape) {

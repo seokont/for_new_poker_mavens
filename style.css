@@ -31,13 +31,13 @@
   }
 
   .straddle {
-    top: 82px;
-    left: -8px;
+    top: 82px !important;
+    left: -8px !important;
   }
 
   .runtwice {
-    top: 58px;
-    left: -10px;
+    top: 58px !important;
+    left: -10px !important;
   }
 }
 

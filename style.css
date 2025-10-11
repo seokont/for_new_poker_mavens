@@ -23,6 +23,12 @@
   .commandbtn3 {
     top: 398px !important;
   }
+  .betbtn1,
+  .betbtn2,
+  .betbtn3,
+  .betbtn4 {
+    top: 376px !important;
+  }
 }
 
 @media (orientation: landscape) {

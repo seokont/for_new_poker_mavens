@@ -55,7 +55,7 @@ function watchTransformChanges(selector, targetScaleY = 0.94732) {
         { selector: ".endbreak", transform: "scale(0.7512, 1.0556)" },
         { selector: ".nextPanel", transform: "scale(0.7512, 1.0556)" },
         { selector: ".timebankbtn", transform: "scale(0.7512, 1.0556)" },
-        { selector: ".raisebox", transform: "scale(0.7512, 1.0556)" },
+        // { selector: ".raisebox", transform: "scale(0.7512, 1.0556)" },
         { selector: ".commandbtn1", transform: "scale(0.7512, 1.0556)" },
         { selector: ".commandbtn2", transform: "scale(0.7512, 1.0556)" },
         { selector: ".commandbtn3", transform: "scale(0.7512, 1.0556)" },

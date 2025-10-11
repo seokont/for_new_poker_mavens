@@ -29,6 +29,16 @@
   .betbtn4 {
     top: 376px !important;
   }
+
+  .straddle {
+    top: 82px;
+    left: -8px;
+  }
+
+  .runtwice {
+    top: 58px;
+    left: -10px;
+  }
 }
 
 @media (orientation: landscape) {

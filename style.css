@@ -17,6 +17,12 @@
     transform: scale(1.33143, 1.009) !important;
     top: -8px !important;
   }
+
+  .commandbtn1,
+  .commandbtn2,
+  .commandbtn3 {
+    top: 462px !important;
+  }
 }
 
 @media (orientation: landscape) {

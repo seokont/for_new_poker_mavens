@@ -45,12 +45,19 @@
     left: 32% !important;
   }
 
-
-  .raisebox {   
-  left: 556px !important;
-  top: 280px !important; 
-  transform: rotate(-90deg) !important;
-  
+  .raisebox {
+    left: 556px !important;
+    top: 280px !important;
+    transform: rotate(-90deg) !important;
+  }
+  .slider_thumb {
+    background: url("https://i.ibb.co/Y4cq1cB7/fishka-gold-2.png") 0px 0px /
+      100% 100% no-repeat !important;
+  }
+  .tablemessage {
+    left: 14% !important;
+    top: 55% !important;
+  }
 }
 
 @media (orientation: landscape) {

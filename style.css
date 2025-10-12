@@ -16,6 +16,7 @@
   .tablecontent {
     transform: scale(1.33143, 1.009) !important;
     top: -8px !important;
+    width: 710px !important;
   }
 
   .commandbtn1,
@@ -46,8 +47,8 @@
   }
   /* ---------------------------------raisebox-------------------------------- */
   .raisebox {
-    left: 579px !important;
-    top: 280px !important;
+    left: 591px !important;
+    top: 312px !important;
     width: 29% !important;
     height: 27px !important;
     transform: rotate(-90deg) !important;

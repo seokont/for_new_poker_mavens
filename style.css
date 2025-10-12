@@ -44,17 +44,31 @@
     top: 28% !important;
     left: 32% !important;
   }
-
+  /* ---------------------------------raisebox-------------------------------- */
   .raisebox {
     left: 556px !important;
     top: 280px !important;
+    width: 27% !important;
+    height: 5% !important;
     transform: rotate(-90deg) !important;
+    background: linear-gradient(to bottom, #45484d 0%, #000000 100%) !important;
+    box-shadow: -1px 3px 13px rgba(0, 0, 0, 0.13) !important;
+    border-radius: 5px !important;
+  }
+  .raiseinput {
+    display: none !important;
   }
   .slider_thumb {
     background: url("https://i.ibb.co/Y4cq1cB7/fishka-gold-2.png") 0px 0px /
       100% 100% no-repeat !important;
     height: 20px !important;
     border-radius: 50px !important;
+  }
+  .raiseslider {
+    left: 1px !important;
+    top: -3px !important;
+    width: 183px !important;
+    height: 31px !important;
   }
   .tablemessage {
     left: 14% !important;

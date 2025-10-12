@@ -51,7 +51,7 @@
     width: 27% !important;
     height: 5% !important;
     transform: rotate(-90deg) !important;
-    background: linear-gradient(to bottom, #45484d 0%, #000000 100%) !important;
+    background: #45484d !important;
     box-shadow: -1px 3px 13px rgba(0, 0, 0, 0.13) !important;
     border-radius: 5px !important;
   }
@@ -65,10 +65,14 @@
     border-radius: 50px !important;
   }
   .raiseslider {
-    left: 1px !important;
-    top: -3px !important;
-    width: 183px !important;
+    left: 8px !important;
+    top: 1px !important;
+    width: 186px !important;
     height: 31px !important;
+  }
+  .slider_bar {
+    background: linear-gradient(red, yellow, blue, orange) !important;
+    border-color: red !important;
   }
   .tablemessage {
     left: 14% !important;

@@ -22,7 +22,25 @@
   .commandbtn1,
   .commandbtn2,
   .commandbtn3 {
-    top: 75% !important;
+    top: 75.5% !important;
+  }
+
+  .commandbtn1 {
+    border-radius: 10px !important;
+    border: none !important;
+  }
+
+  .commandbtn1 > button {
+    background: linear-gradient(
+      90deg,
+      rgb(131, 58, 180) 0%,
+      rgb(55, 253, 29) 50%,
+      rgb(252, 176, 69) 100%
+    ) !important;
+    border-radius: 10px !important;
+    border: none !important;
+    box-shadow: 0 2px 5px rgb(0, 0, 0), 0 4px 6px rgb(0, 0, 0) !important;
+    line-height: 42px !important;
   }
 
   .commandbtn2 {
@@ -35,6 +53,24 @@
       90deg,
       rgb(131, 58, 180) 0%,
       rgb(253, 29, 29) 50%,
+      rgb(252, 176, 69) 100%
+    ) !important;
+    border-radius: 10px !important;
+    border: none !important;
+    box-shadow: 0 2px 5px rgb(0, 0, 0), 0 4px 6px rgb(0, 0, 0) !important;
+    line-height: 42px !important;
+  }
+
+  .commandbtn3 {
+    border-radius: 10px !important;
+    border: none !important;
+  }
+
+  .commandbtn3 > button {
+    background: linear-gradient(
+      90deg,
+      rgb(131, 58, 180) 0%,
+      rgb(63, 29, 253) 50%,
       rgb(252, 176, 69) 100%
     ) !important;
     border-radius: 10px !important;

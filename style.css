@@ -19,6 +19,18 @@
     width: 710px !important;
   }
 
+  .nextPanel {
+    top: 75.5% !important;
+  }
+
+  .nextPanel > .nextmove3 {
+    top: 37px !important;
+  }
+
+  .timebankbtn {
+    top: 75.5% !important;
+  }
+
   .commandbtn1,
   .commandbtn2,
   .commandbtn3 {
@@ -95,6 +107,20 @@
   .betbtn4 {
     left: 86% !important;
     top: 67% !important;
+  }
+
+  .betbtn4 > button {
+    background: radial-gradient(
+        156.55% 134.68% at 50% 100%,
+        #50ee31 0%,
+        rgba(207, 51, 51, 0) 100%
+      ),
+      linear-gradient(180deg, #3e3f43 0%, #28282c 71.87%) !important;
+    border-radius: 10px !important;
+    border: none !important;
+    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5),
+      inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;
+    line-height: 42px !important;
   }
 
   .bannerright2 {

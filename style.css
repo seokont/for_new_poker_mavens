@@ -23,8 +23,9 @@
     top: 75.5% !important;
   }
 
+  .nextPanel > .nextmove4,
   .nextPanel > .nextmove3 {
-    top: 37px !important;
+    top: 28px !important;
   }
 
   .timebankbtn {
@@ -83,6 +84,26 @@
   }
 
   .commandbtn3 > button {
+    background: radial-gradient(
+        156.55% 134.68% at 50% 100%,
+        #50ee31 0%,
+        rgba(207, 51, 51, 0) 100%
+      ),
+      linear-gradient(180deg, #3e3f43 0%, #28282c 71.87%) !important;
+    border-radius: 10px !important;
+    border: none !important;
+    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5),
+      inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;
+    line-height: 42px !important;
+  }
+  .timebankbtn {
+    border-radius: 10px !important;
+    border: none !important;
+    left: 20% !important;
+    top: 75.5% !important;
+  }
+
+  .timebankbtn > button {
     background: radial-gradient(
         156.55% 134.68% at 50% 100%,
         #50ee31 0%,

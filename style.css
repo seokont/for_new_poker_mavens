@@ -157,14 +157,21 @@
       inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;
     line-height: 42px !important;
   }
+  .bannerleft {
+    top: 28% !important;
+    left: 28% !important;
+    font-size: 14px !important;
+  }
 
   .bannerright2 {
     top: 28% !important;
-    right: 32% !important;
+    right: 56% !important;
+    font-size: 14px !important;
   }
   .bannerright {
     top: 28% !important;
-    right: 39% !important;
+    right: 32% !important;
+    font-size: 14px !important;
   }
   .straddle {
     top: 35px !important;
@@ -185,11 +192,6 @@
   .runtwice {
     top: 10px !important;
     left: 51px !important;
-  }
-
-  .bannerleft {
-    top: 28% !important;
-    left: 32% !important;
   }
 
   /* ---------------------------------raisebox-------------------------------- */

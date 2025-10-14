@@ -250,7 +250,9 @@
   }
   .tablemessage {
     left: 14% !important;
-    top: 48% !important;
+    top: 49% !important;
+    opacity: 0.5 !important;
+    font-size: 14px !important;
   }
 }
 

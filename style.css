@@ -1,6 +1,6 @@
 #mControlsUnhideBtn {
-  right: 185px !important;
-  top: 2% !important;
+  right: 96% !important;
+  top: 13% !important;
   width: 30px !important;
   bottom: 0px !important;
   z-index: 101 !important;
@@ -21,6 +21,7 @@
 
   div:nth-child(3) > div:nth-child(80) {
     color: #fcdf15 !important;
+    font-weight: bold !important;
   }
 
   .bannermiddle {

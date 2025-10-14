@@ -78,11 +78,18 @@
     box-shadow: 0 2px 5px rgb(0, 0, 0), 0 4px 6px rgb(0, 0, 0) !important;
     line-height: 42px !important;
   }
-  .betbtn1,
-  .betbtn2,
-  .betbtn3,
+  .betbtn1 {
+    display: none !important;
+  }
+  .betbtn2 {
+    display: none !important;
+  }
+  .betbtn3 {
+    display: none !important;
+  }
   .betbtn4 {
-    top: 376px !important;
+    left: 86% !important;
+    top: 67% !important;
   }
 
   .straddle {

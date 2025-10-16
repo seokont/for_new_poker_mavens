@@ -55,17 +55,17 @@
     left: -25% !important;
   }
   .timebankbtn {
-    top: 75.5% !important;
+    top: 77% !important;
   }
 
   .commandbtn1,
   .commandbtn2,
   .commandbtn3 {
-    top: 75.5% !important;
+    top: 77% !important;
   }
 
   .commandbtn1 {
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
     left: 38% !important;
   }
@@ -77,7 +77,7 @@
         rgba(207, 51, 51, 0) 100%
       ),
       linear-gradient(180deg, #3e3f43 0%, #28282c 71.87%) !important;
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
     box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5),
       inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;
@@ -85,7 +85,7 @@
   }
 
   .commandbtn2 {
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
     left: 56% !important;
   }
@@ -97,7 +97,7 @@
         rgba(207, 51, 51, 0) 100%
       ),
       linear-gradient(180deg, #3e3f43 0%, #28282c 71.87%) !important;
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
     box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5),
       inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;
@@ -105,7 +105,7 @@
   }
 
   .commandbtn3 {
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
   }
 
@@ -116,14 +116,14 @@
         rgba(207, 51, 51, 0) 100%
       ),
       linear-gradient(180deg, #3e3f43 0%, #28282c 71.87%) !important;
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
     box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5),
       inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;
     line-height: 42px !important;
   }
   .timebankbtn {
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
     left: 20% !important;
     top: 75.5% !important;
@@ -136,7 +136,7 @@
         rgba(207, 51, 51, 0) 100%
       ),
       linear-gradient(180deg, #3e3f43 0%, #28282c 71.87%) !important;
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
     box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5),
       inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;
@@ -163,7 +163,7 @@
         rgba(207, 51, 51, 0) 100%
       ),
       linear-gradient(180deg, #3e3f43 0%, #28282c 71.87%) !important;
-    border-radius: 10px !important;
+    border-radius: 5px !important;
     border: none !important;
     box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5),
       inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;

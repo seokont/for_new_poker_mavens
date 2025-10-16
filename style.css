@@ -55,6 +55,10 @@
     left: -30% !important;
   }
 
+  .totalplate {
+    background: none !important;
+  }
+
   .commandbtn1,
   .commandbtn2,
   .commandbtn3 {

@@ -720,5 +720,5 @@ button:hover {
 
 #OpenTableControls {
   position: absolute !important;
-  z-index: 3 !important;
+  z-index: 3000 !important;
 }

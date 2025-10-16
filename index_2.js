@@ -39,7 +39,7 @@ function watchTransformChanges(selector, targetScaleY = 0.94732) {
         { selector: ".bannermiddle", transform: "scale(0.7512, 1.0556)" },
         { selector: ".bannerright", transform: "scale(0.7512, 1.0556)" },
         { selector: ".bannerright2", transform: "scale(0.7512, 1.0556)" },
-        { selector: ".card", transform: "scale(0.7512, 1.0556)" },
+        // { selector: ".card", transform: "scale(0.7512, 1.0556)" },
         { selector: ".foldanybet", transform: "scale(0.7512, 1.0556)" },
         { selector: ".outnexthand", transform: "scale(0.7512, 1.0556)" },
         { selector: ".outnextblind", transform: "scale(0.7512, 1.0556)" },

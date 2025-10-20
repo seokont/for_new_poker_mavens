@@ -29,9 +29,9 @@
   }
 
   .bannermiddle {
-    top: 52% !important;
+    top: 31% !important;
     left: 14% !important;
-    font-size: 14px !important;
+    font-size: 11px !important;
     opacity: 0.5 !important;
   }
 
@@ -175,19 +175,19 @@
     line-height: 42px !important;
   }
   .bannerleft {
-    top: 37% !important;
-    left: 68% !important;
+    top: 56% !important;
+    left: 44.5% !important;
     font-size: 10px !important;
   }
 
   .bannerright2 {
-    top: 40% !important;
-    right: 25.5% !important;
+    top: 62% !important;
+    right: 49.5% !important;
     font-size: 10px !important;
   }
   .bannerright {
-    top: 43% !important;
-    right: 23.5% !important;
+    top: 59% !important;
+    right: 47.5% !important;
     font-size: 10px !important;
   }
   .straddle {

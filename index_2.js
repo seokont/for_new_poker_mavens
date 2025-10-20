@@ -262,7 +262,7 @@ const interval_8 = setInterval(() => {
 }, 100);
 
 const interval_9 = setInterval(() => {
-  const hide = (el) => el?.style.setProperty("display", "block", "important");
+  const hide = (el) => el?.style.setProperty("display", "none", "important");
   const mo = new MutationObserver(() =>
     hide(document.getElementById("mControlsUnhideBtn"))
   );

@@ -272,7 +272,7 @@ const interval_8 = setInterval(() => {
 // }, 100);
 
 const interval_10 = setInterval(() => {
-  const hide_2 = (el) => el?.style.setProperty("display", "block", "important");
+  const hide_2 = (el) => el?.style.setProperty("display", "none", "important");
   const mo = new MutationObserver(() =>
     hide_2(document.getElementById("OpenTableControls"))
   );

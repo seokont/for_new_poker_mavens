@@ -271,16 +271,16 @@ const interval_9 = setInterval(() => {
   clearInterval(interval_9);
 }, 100);
 
-const interval_10 = setInterval(() => {
-  const hide_2 = (el) => el?.style.setProperty("display", "none", "important");
-  const mo = new MutationObserver(() =>
-    hide_2(document.getElementById("OpenTableControls"))
-  );
-  mo.observe(document.documentElement, { childList: true, subtree: true });
-  // сразу попробовать скрыть
-  // hide_2(document.getElementById("OpenTableControls"));
-  clearInterval(interval_10);
-}, 100);
+// const interval_10 = setInterval(() => {
+//   const hide_2 = (el) => el?.style.setProperty("display", "none", "important");
+//   const mo = new MutationObserver(() =>
+//     hide_2(document.getElementById("OpenTableControls"))
+//   );
+//   mo.observe(document.documentElement, { childList: true, subtree: true });
+
+//   hide_2(document.getElementById("OpenTableControls"));
+//   clearInterval(interval_10);
+// }, 100);
 //--------------------------------------------------------------------------------------------------------------------
 
 // Автоматический запуск при загрузке DOM

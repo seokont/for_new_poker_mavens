@@ -259,6 +259,9 @@
     opacity: 0.5 !important;
     font-size: 14px !important;
   }
+  .dealer {
+    transform: scale(0.7512, 1.0556) !important;
+  }
 }
 
 @media (orientation: landscape) {

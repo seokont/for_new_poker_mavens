@@ -278,7 +278,7 @@ const interval_10 = setInterval(() => {
   );
   mo.observe(document.documentElement, { childList: true, subtree: true });
   // сразу попробовать скрыть
-  hide_2(document.getElementById("OpenTableControls"));
+  // hide_2(document.getElementById("OpenTableControls"));
   clearInterval(interval_10);
 }, 100);
 //--------------------------------------------------------------------------------------------------------------------

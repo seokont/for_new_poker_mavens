@@ -220,11 +220,19 @@
     width: 29% !important;
     height: 27px !important;
     transform: rotate(-90deg) !important;
+    transform-origin: center !important;
     background: #45484d !important;
     box-shadow: -1px 3px 13px rgba(0, 0, 0, 0.13) !important;
     border-radius: 5px !important;
     border: none !important;
   }
+
+  .raisebox .raiseslider,
+  .raisebox .raiseinput {
+    transform: rotate(90deg) !important;
+    transform-origin: left top !important;
+  }
+
   .raiseinput {
     display: none !important;
   }

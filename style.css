@@ -158,9 +158,9 @@
     display: none !important;
   }
   .betbtn4 {
-    left: 90% !important;
+    left: 89.5% !important;
     top: 77% !important;
-    width: 42px !important;
+    width: 69px !important;
     height: 41px !important;
   }
 
@@ -218,7 +218,7 @@
   }
   /* ---------------------------------raisebox-------------------------------- */
   .raisebox {
-    left: 79% !important;
+    left: 80% !important;
     top: 69% !important;
     width: 18% !important;
     height: 27px !important;
@@ -234,8 +234,8 @@
     display: none !important;
   }
   .slider_thumb {
-    background: url("https://i.ibb.co/Y4cq1cB7/fishka-gold-2.png") 0px 0px /
-      100% 100% no-repeat !important;
+    background: url("https://i.ibb.co/FkC9L4j6/9b004174-23fc-4506-94cf-5750ea6a414b.png")
+      0px 0px / 100% 100% no-repeat !important;
     height: 30px !important;
     border-radius: 50px !important;
     top: -3px !important;
@@ -248,14 +248,7 @@
     height: 31px !important;
   }
   .slider_bar {
-    background: linear-gradient(
-      to right,
-      #1e5799 0%,
-      #2ef258 17%,
-      #f77631 43%,
-      #4526f2 70%,
-      #e47de8 99%
-    ) !important;
+    background-color: #fcdf15 !important;
     margin-top: -8px !important;
     border: none !important;
     height: 10px !important;

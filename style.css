@@ -157,8 +157,10 @@
     display: none !important;
   }
   .betbtn4 {
-    left: 86% !important;
-    top: 67% !important;
+    left: 94% !important;
+    top: 77% !important;
+    width: 42px !important;
+    height: 41px !important;
   }
 
   .betbtn4 > button {
@@ -215,8 +217,8 @@
   }
   /* ---------------------------------raisebox-------------------------------- */
   .raisebox {
-    left: 5% !important;
-    top: 4% !important;
+    left: 79% !important;
+    top: 69% !important;
     width: 18% !important;
     height: 27px !important;
     /* transform: rotate(-90deg) !important; */

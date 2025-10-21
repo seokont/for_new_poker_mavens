@@ -112,6 +112,7 @@
   .commandbtn3 {
     border-radius: 5px !important;
     border: none !important;
+    left: 67% !important;
   }
 
   .commandbtn3 > button {

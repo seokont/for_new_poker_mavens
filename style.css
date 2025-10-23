@@ -269,8 +269,7 @@
     height: 19px !important;
   }
   .chip {
-    width: 19px !important;
-    height: 15px !important;
+    transform: scale(0.7512, 1.0556) !important;
   }
 }
 

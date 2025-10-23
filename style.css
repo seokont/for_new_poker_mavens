@@ -260,10 +260,7 @@
     font-size: 14px !important;
   }
   .dealer,
-  .chipstack {
-    transform: scale(0.7512, 1.0556) !important;
-  }
-
+  .chipstack,
   .chip {
     transform: scale(0.7512, 1.0556) !important;
   }

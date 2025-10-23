@@ -99,36 +99,36 @@ const interval = setInterval(() => {
   }
 }, 100);
 
-const interval_2 = setInterval(() => {
-  const div_2 = document.getElementById("ConnectFullBtn");
-  if (div_2) {
-    const btn_2 = div_2.querySelector("button");
-    if (btn_2 && !btn_2.disabled) {
-      console.log("Кнопка найдена, имитируем нажатие...");
+// const interval_2 = setInterval(() => {
+//   const div_2 = document.getElementById("ConnectFullBtn");
+//   if (div_2) {
+//     const btn_2 = div_2.querySelector("button");
+//     if (btn_2 && !btn_2.disabled) {
+//       console.log("Кнопка найдена, имитируем нажатие...");
 
-      // Сначала touch события (для мобильных)
-      btn_2.dispatchEvent(
-        new TouchEvent("touchstart", { bubbles: true, cancelable: true })
-      );
-      btn_2.dispatchEvent(
-        new TouchEvent("touchend", { bubbles: true, cancelable: true })
-      );
+//       // Сначала touch события (для мобильных)
+//       btn_2.dispatchEvent(
+//         new TouchEvent("touchstart", { bubbles: true, cancelable: true })
+//       );
+//       btn_2.dispatchEvent(
+//         new TouchEvent("touchend", { bubbles: true, cancelable: true })
+//       );
 
-      // Затем мышиные (для безопасности)
-      btn_2.dispatchEvent(
-        new MouseEvent("mousedown", { bubbles: true, cancelable: true })
-      );
-      btn_2.dispatchEvent(
-        new MouseEvent("mouseup", { bubbles: true, cancelable: true })
-      );
-      btn_2.dispatchEvent(
-        new MouseEvent("click", { bubbles: true, cancelable: true })
-      );
+//       // Затем мышиные (для безопасности)
+//       btn_2.dispatchEvent(
+//         new MouseEvent("mousedown", { bubbles: true, cancelable: true })
+//       );
+//       btn_2.dispatchEvent(
+//         new MouseEvent("mouseup", { bubbles: true, cancelable: true })
+//       );
+//       btn_2.dispatchEvent(
+//         new MouseEvent("click", { bubbles: true, cancelable: true })
+//       );
 
-      clearInterval(interval_2);
-    }
-  }
-}, 100);
+//       clearInterval(interval_2);
+//     }
+//   }
+// }, 100);
 
 const interval_3 = setInterval(() => {
   const elements = document.querySelectorAll(".grid_data > div > div");

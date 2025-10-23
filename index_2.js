@@ -1,5 +1,3 @@
-//-------------------------------------------------------------------------------------------------------------------
-
 function parseMatrix(transformString) {
   if (!transformString || !transformString.startsWith("matrix")) return null;
 
@@ -281,7 +279,6 @@ const interval_8 = setInterval(() => {
 //   hide_2(document.getElementById("OpenTableControls"));
 //   clearInterval(interval_10);
 // }, 100);
-//--------------------------------------------------------------------------------------------------------------------
 
 // Автоматический запуск при загрузке DOM
 document.addEventListener("DOMContentLoaded", function () {

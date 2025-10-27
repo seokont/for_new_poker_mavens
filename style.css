@@ -12,7 +12,7 @@
   background-image: none !important;
 }
 
-@media (hover: none) and (pointer: coarse) and (orientation: landscape) {
+@media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) and (max-height: 480px) {
   .tablecontent {
     transform: scale(1.33143, 0.95) !important;
     top: -8px !important;

@@ -217,30 +217,6 @@
     background-color: #111727 !important;
   }
 
-  #RingWaitBtn {
-    top: -8% !important;
-    left: 88.4% !important;
-    position: absolute !important;
-    z-index: 1000 !important;
-    visibility: visible !important;
-    width: 9.6% !important;
-    height: 29px !important;
-  }
-
-  #RingWaitBtn > button {
-    background: radial-gradient(
-        156.55% 134.68% at 50% 100%,
-        #50ee31 0%,
-        rgba(207, 51, 51, 0) 100%
-      ),
-      linear-gradient(180deg, #3e3f43 0%, #28282c 71.87%) !important;
-    border-radius: 5px !important;
-    border: none !important;
-    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.5),
-      inset 0 0.0625em 0.25em rgba(255, 255, 255, 0.15) !important;
-    line-height: 30px !important;
-    font-size: 12px !important;
-  }
   /* ---------------------------------raisebox-------------------------------- */
   .raisebox {
     left: 80% !important;
